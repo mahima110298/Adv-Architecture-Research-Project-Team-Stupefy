@@ -1,0 +1,427 @@
+┌─────────────────────────────────────────────────────────────┐
+│   COA Project · Track C: Disaggregated Memory Chat          │
+├─────────────────────────────────────────────────────────────┤
+│  Model parameters  : 134.52 MB    (0.1B params)            │
+│  Weight footprint  : 103.67 MB    (on disk/in-memory)       │
+│  Layers            : 30                                     │
+│  KV heads          : 3     (heads: 9, embd: 576)            │
+│  Context size      : 2048   tokens                         │
+│  Max KV-cache      : 47.19 MB     (at full context, fp16)    │
+├─────────────────────────────────────────────────────────────┤
+│  Memory Hierarchy (simulated):                              │
+│    Tier 0 [SRAM   ]: BW=10.00 TB/s  lat=   1 ns  cap=4.19 MB  │
+│    Tier 1 [HBM    ]: BW=3.35 TB/s   lat=  10 ns  cap=34.36 GB │
+│    Tier 2 [DRAM   ]: BW=68.0 GB/s   lat=  80 ns  cap=68.72 GB │
+│    Tier 3 [FAR_MEM]: BW=25.0 GB/s   lat= 500 ns  cap=549.76 GB │
+├─────────────────────────────────────────────────────────────┤
+│  Type a message and press Enter. Empty line to quit.        │
+└─────────────────────────────────────────────────────────────┘
+> Artificial intelligence (AI) is a broad term that refers to machines that are programmed to perform tasks that typically require human intelligence, such as learning, reasoning, and problem-solving. AI encompasses a wide range of technologies, including machine learning, natural language processing, computer vision, and robotics, which enable computers to learn from data and make decisions based on that learning.
+
+AI can be used in a wide range of applications, including:
+
+* Personal assistants, such as Siri, Google Assistant, and Alexa, which use AI to understand language and respond to user queries
+* Chatbots, which use AI to simulate human-like conversations with users
+* Self-driving cars, which use AI to guide themselves on the road
+* Robotics, which use AI to assist with tasks such as assembly, welding, and repair
+* Financial systems, which use AI to manage transactions and predict potential risks
+
+AI has many benefits, including:
+
+* Increased efficiency and productivity
+* Improved accuracy and speed
+* Enhanced customer service
+* Increased innovation and competitiveness
+* Ability to learn and adapt to new situations
+
+However, AI also has some limitations and challenges, such as:
+
+* AI is still in its early stages of development
+* It requires large amounts of data to be reliable
+* AI requires human oversight and training
+* It can be slow and laborious to learn
+
+Overall, AI is a rapidly evolving field with many exciting applications and challenges ahead.
+
+┌─────────────────────────────────────────────────────────────┐
+│         TRACK C · DISAGGREGATED MEMORY  (Turn  1)          │
+├──────────────────────────┬──────────────────────────────────┤
+│ MEMORY PLACEMENT         │ BANDWIDTH / LATENCY              │
+├──────────────────────────┼──────────────────────────────────┤
+│ Weights  103.67 MB       │ Tier 1 [HBM    ]                  │
+│                          │   BW: 3.35 TB/s   lat:   10 ns   │
+│ KV-cache 7.19 MB         │ Tier 1 [HBM    ]                  │
+│ (312 tokens cached)        │   BW: 3.35 TB/s   lat:   10 ns   │
+│ Tier fill:   0.0%         │   Capacity: 34.36 GB           │
+├──────────────────────────┴──────────────────────────────────┤
+│ DATA MOVEMENT  (this turn: prefill 14 + decode 298 tokens)   │
+│   Prefill weight reads : 103.67 MB    (once for prompt)   │
+│   Decode  weight reads : 30.89 GB     (298 × weights)  │
+│   KV reads (attention) : 1.12 GB      from Tier 1 [HBM]  │
+│   KV writes (new tok)  : 7.19 MB      to   Tier 1 [HBM]  │
+│   Turn total bytes     : 32.13 GB                          │
+│   Bytes / gen token    : 107.47 MB                         │
+├─────────────────────────────────────────────────────────────┤
+│ LATENCY MODEL  (per last decode step)                       │
+│   Weight BW time :    0.031 ms  ← Tier 1 [HBM] @ 3.35 TB/s   │
+│   KV read  time  :    0.002 ms  ← Tier 1 [HBM] @ 3.35 TB/s    │
+│   Bottleneck     : Weight reads  (model too large for faster tier) │
+├─────────────────────────────────────────────────────────────┤
+│ ROOFLINE  (arithmetic intensity)                            │
+│   FLOPs/token : ~269.03 MB     (2 × 134515008 params)          │
+│   Bytes/token : 107.47 MB                                  │
+│   AI          :   2.503 FLOP/byte  →  MEMORY-BOUND ✗     │
+│   Ridge point :     295 FLOP/byte  (989 TFLOPS / 3.35 TB/s)│
+├─────────────────────────────────────────────────────────────┤
+│ SESSION TOTALS                                               │
+│   Tokens generated : 298                                    │
+│   Total bytes moved: 32.13 GB                               │
+│   Tier migrations  : 1    (KV-cache moved between tiers)  │
+│   Remote accesses  : 0      (Tier≥2: DRAM or FAR_MEM)     │
+│   Actual gen speed : 386.2 tok/s                           │
+└─────────────────────────────────────────────────────────────┘
+
+> Machine learning is a way for computers to learn and improve by analyzing data. Imagine a computer system that can learn from data and make decisions. This is similar to how humans learn and understand things, but instead of humans using books and textbooks, the computer learns by making decisions based on the data it's given.
+
+Machine learning algorithms learn from patterns and trends in data, such as how customers respond to different products or services. The computer system can learn to recognize patterns in the data, so it can make decisions or predictions based on that learning.
+
+The key to machine learning is the ability to learn from data, and to make decisions based on that data. This can happen through various techniques, such as supervised learning, unsupervised learning, and reinforcement learning.
+
+Here's a simple example of machine learning in action:
+
+Imagine a car company wants to predict the likelihood of a driver getting into an accident. The car company uses a machine learning algorithm to learn from the data it has about drivers who have driven in the past. The algorithm learns that drivers who drive in the past are more likely to get into an accident.
+
+The algorithm then uses this knowledge to make predictions about who is most likely to get into an accident. For example, it might say that if a driver drives in the past, they are more likely to get into an accident.
+
+However, it's not a foolproof prediction. The car company might need to re-evaluate the data as new drivers come in who are not driven in the past. This means the algorithm needs to learn from new data and adapt to new situations.
+
+Machine learning has many applications in fields such as finance, healthcare, and transportation, and is expected to become even more important in the coming years.
+
+┌─────────────────────────────────────────────────────────────┐
+│         TRACK C · DISAGGREGATED MEMORY  (Turn  2)          │
+├──────────────────────────┬──────────────────────────────────┤
+│ MEMORY PLACEMENT         │ BANDWIDTH / LATENCY              │
+├──────────────────────────┼──────────────────────────────────┤
+│ Weights  103.67 MB       │ Tier 1 [HBM    ]                  │
+│                          │   BW: 3.35 TB/s   lat:   10 ns   │
+│ KV-cache 15.81 MB        │ Tier 1 [HBM    ]                  │
+│ (686 tokens cached)        │   BW: 3.35 TB/s   lat:   10 ns   │
+│ Tier fill:   0.0%         │   Capacity: 34.36 GB           │
+├──────────────────────────┴──────────────────────────────────┤
+│ DATA MOVEMENT  (this turn: prefill 16 + decode 358 tokens)   │
+│   Prefill weight reads : 103.67 MB    (once for prompt)   │
+│   Decode  weight reads : 37.11 GB     (358 × weights)  │
+│   KV reads (attention) : 4.19 GB      from Tier 1 [HBM]  │
+│   KV writes (new tok)  : 8.62 MB      to   Tier 1 [HBM]  │
+│   Turn total bytes     : 41.41 GB                          │
+│   Bytes / gen token    : 115.39 MB                         │
+├─────────────────────────────────────────────────────────────┤
+│ LATENCY MODEL  (per last decode step)                       │
+│   Weight BW time :    0.031 ms  ← Tier 1 [HBM] @ 3.35 TB/s   │
+│   KV read  time  :    0.005 ms  ← Tier 1 [HBM] @ 3.35 TB/s    │
+│   Bottleneck     : Weight reads  (model too large for faster tier) │
+├─────────────────────────────────────────────────────────────┤
+│ ROOFLINE  (arithmetic intensity)                            │
+│   FLOPs/token : ~269.03 MB     (2 × 134515008 params)          │
+│   Bytes/token : 115.39 MB                                  │
+│   AI          :   2.331 FLOP/byte  →  MEMORY-BOUND ✗     │
+│   Ridge point :     295 FLOP/byte  (989 TFLOPS / 3.35 TB/s)│
+├─────────────────────────────────────────────────────────────┤
+│ SESSION TOTALS                                               │
+│   Tokens generated : 656                                    │
+│   Total bytes moved: 73.54 GB                               │
+│   Tier migrations  : 1    (KV-cache moved between tiers)  │
+│   Remote accesses  : 0      (Tier≥2: DRAM or FAR_MEM)     │
+│   Actual gen speed : 345.0 tok/s                           │
+└─────────────────────────────────────────────────────────────┘
+
+> Neural networks are a type of machine learning algorithm that uses multiple layers of interconnected nodes, or "neurons," to learn patterns in data and make predictions. These networks are inspired by the structure and function of the human brain, which is made up of billions of interconnected neurons that process information.
+
+Here's a simplified explanation of how neural networks learn:
+
+When a neural network is trained, it learns by exposing it to a large amount of data and repeating the training process. The network learns to recognize patterns in the data by learning to identify the relationships between the different data points.
+
+Here's a more detailed explanation of how neural networks learn:
+
+In the early stages of training, neural networks learn by:
+
+1. Training a model to recognize patterns in the training data
+2. Training a model to identify the relationships between the data points
+3. Training a model to make predictions on new, unseen data
+
+The training process involves:
+
+* Training a model to represent the relationships between the data points
+* Training a model to identify the patterns in the data
+* Training a model to make predictions on new, unseen data
+
+The network learns to recognize patterns in the data by:
+
+* Building a hierarchy of layers of neurons
+* Building a hierarchy of layers of neurons
+* Learning to identify the relationships between the data points
+* Learning to make predictions on new, unseen data
+
+There are many different types of neural networks, including:
+
+* One-way or recurrent neural networks
+* Convolutional neural networks
+* Generative models
+* Recurrent neural networks
+* Transformer networks
+
+Neural networks can learn to recognize patterns in large amounts of data, and they can be used in a wide range of applications, including image and speech recognition, natural language processing, and predictive analytics.
+
+Here's a simple example of how a neural network might be trained:
+
+Imagine you're training a neural network to recognize patterns in customer reviews. Here's a simplified example:
+
+Imagine you're analyzing customer reviews on social media, and you're trying to predict how likely it is to get into an accident.
+
+* You receive a review of a car that has caused an accident
+* You review the review and make a prediction
+* The model predicts the likelihood of the car causing an accident (0.08)
+* The model predicts the likelihood of the car not causing an accident (0.98)
+
+The model learns to recognize patterns in the data by:
+
+* Creating a hierarchical structure of neurons
+* Building a hierarchy of neurons
+* Learning to recognize the relationships between the data points
+* Learning to make predictions on new, unseen data
+
+Keep in mind that neural networks are complex and can be prone to overfitting, which means they may produce more accurate predictions than is necessary for the real-world scenario.
+
+┌─────────────────────────────────────────────────────────────┐
+│         TRACK C · DISAGGREGATED MEMORY  (Turn  3)          │
+├──────────────────────────┬──────────────────────────────────┤
+│ MEMORY PLACEMENT         │ BANDWIDTH / LATENCY              │
+├──────────────────────────┼──────────────────────────────────┤
+│ Weights  103.67 MB       │ Tier 1 [HBM    ]                  │
+│                          │   BW: 3.35 TB/s   lat:   10 ns   │
+│ KV-cache 29.91 MB        │ Tier 1 [HBM    ]                  │
+│ (1298 tokens cached)        │   BW: 3.35 TB/s   lat:   10 ns   │
+│ Tier fill:   0.1%         │   Capacity: 34.36 GB           │
+├──────────────────────────┴──────────────────────────────────┤
+│ DATA MOVEMENT  (this turn: prefill 19 + decode 593 tokens)   │
+│   Prefill weight reads : 103.67 MB    (once for prompt)   │
+│   Decode  weight reads : 61.48 GB     (593 × weights)  │
+│   KV reads (attention) : 13.69 GB     from Tier 1 [HBM]  │
+│   KV writes (new tok)  : 14.10 MB     to   Tier 1 [HBM]  │
+│   Turn total bytes     : 75.29 GB                          │
+│   Bytes / gen token    : 126.78 MB                         │
+├─────────────────────────────────────────────────────────────┤
+│ LATENCY MODEL  (per last decode step)                       │
+│   Weight BW time :    0.031 ms  ← Tier 1 [HBM] @ 3.35 TB/s   │
+│   KV read  time  :    0.009 ms  ← Tier 1 [HBM] @ 3.35 TB/s    │
+│   Bottleneck     : Weight reads  (model too large for faster tier) │
+├─────────────────────────────────────────────────────────────┤
+│ ROOFLINE  (arithmetic intensity)                            │
+│   FLOPs/token : ~269.03 MB     (2 × 134515008 params)          │
+│   Bytes/token : 126.78 MB                                  │
+│   AI          :   2.122 FLOP/byte  →  MEMORY-BOUND ✗     │
+│   Ridge point :     295 FLOP/byte  (989 TFLOPS / 3.35 TB/s)│
+├─────────────────────────────────────────────────────────────┤
+│ SESSION TOTALS                                               │
+│   Tokens generated : 1249                                   │
+│   Total bytes moved: 148.83 GB                              │
+│   Tier migrations  : 1    (KV-cache moved between tiers)  │
+│   Remote accesses  : 0      (Tier≥2: DRAM or FAR_MEM)     │
+│   Actual gen speed : 283.4 tok/s                           │
+└─────────────────────────────────────────────────────────────┘
+
+> Backpropagation is a statistical method used in machine learning to calculate the error or loss function of a neural network, and to train a model to minimize that error. It is a widely used technique in supervised learning, where the goal is to improve the performance of a model by adjusting the weights and biases of the model.
+
+The backpropagation method works as follows:
+
+1. **Forward propagation**: The input data is input to the model, which is a neural network.
+2. **Backpropagation**: The error of the network is calculated using the error function, which is the difference between the predicted output and the actual output.
+3. **Backpropagation**: The error function is calculated using the gradient of the error function with respect to the weights and bias of the network.
+4. **Backpropagation**: The gradients of the error function with respect to the weights and bias are calculated using the gradients of the error function with respect to the predicted output.
+5. **Backpropagation**: The gradients are calculated using the gradient of the loss function with respect to the model's parameters.
+6. **Backpropagation**: The gradients are calculated using the gradients of the loss function with respect to the model's parameters.
+7. **Backpropagation**: The gradients are calculated using the gradients of the loss function with respect to the model's parameters.
+
+The backpropagation method calculates the gradients for the following:
+
+* **Gradient of the error function**: The gradient of the error function with respect to the weights and bias is calculated using the gradient of the loss function with respect to the model's parameters.
+* **Gradient of the loss function**: The gradient of the loss function with respect to the model's parameters is calculated using the gradient of the loss function with respect to the predicted output.
+
+The gradients are then used to update the model's parameters, and the model's performance is evaluated by measuring the difference between the predicted output and the actual output.
+
+The following formulas are used to calculate the gradients:
+
+* **Gradient of the error function**: dA = - Σ (dAx)(y), where dAx is the gradient of the loss function with respect to the model's parameters y
+* **Gradient of the loss function**: dA = - Σ (dAx)(x), where dAx is the gradient of the loss function with respect to the predicted output x
+* **Gradient of the loss function with respect to the predicted output**: dA = - Σ (dAy), where dAy is the gradient of the loss function with respect to the model's parameters y
+
+By calculating the gradients, the backpropagation method can calculate the error or loss function of the model, and the model can learn to improve its performance by adjusting its parameters.
+
+┌─────────────────────────────────────────────────────────────┐
+│         TRACK C · DISAGGREGATED MEMORY  (Turn  4)          │
+├──────────────────────────┬──────────────────────────────────┤
+│ MEMORY PLACEMENT         │ BANDWIDTH / LATENCY              │
+├──────────────────────────┼──────────────────────────────────┤
+│ Weights  103.67 MB       │ Tier 1 [HBM    ]                  │
+│                          │   BW: 3.35 TB/s   lat:   10 ns   │
+│ KV-cache 43.75 MB        │ Tier 1 [HBM    ]                  │
+│ (1899 tokens cached)        │   BW: 3.35 TB/s   lat:   10 ns   │
+│ Tier fill:   0.1%         │   Capacity: 34.36 GB           │
+├──────────────────────────┴──────────────────────────────────┤
+│ DATA MOVEMENT  (this turn: prefill 15 + decode 586 tokens)   │
+│   Prefill weight reads : 103.67 MB    (once for prompt)   │
+│   Decode  weight reads : 60.75 GB     (586 × weights)  │
+│   KV reads (attention) : 21.69 GB     from Tier 1 [HBM]  │
+│   KV writes (new tok)  : 13.85 MB     to   Tier 1 [HBM]  │
+│   Turn total bytes     : 82.56 GB                          │
+│   Bytes / gen token    : 140.71 MB                         │
+├─────────────────────────────────────────────────────────────┤
+│ LATENCY MODEL  (per last decode step)                       │
+│   Weight BW time :    0.031 ms  ← Tier 1 [HBM] @ 3.35 TB/s   │
+│   KV read  time  :    0.013 ms  ← Tier 1 [HBM] @ 3.35 TB/s    │
+│   Bottleneck     : Weight reads  (model too large for faster tier) │
+├─────────────────────────────────────────────────────────────┤
+│ ROOFLINE  (arithmetic intensity)                            │
+│   FLOPs/token : ~269.03 MB     (2 × 134515008 params)          │
+│   Bytes/token : 140.71 MB                                  │
+│   AI          :   1.912 FLOP/byte  →  MEMORY-BOUND ✗     │
+│   Ridge point :     295 FLOP/byte  (989 TFLOPS / 3.35 TB/s)│
+├─────────────────────────────────────────────────────────────┤
+│ SESSION TOTALS                                               │
+│   Tokens generated : 1835                                   │
+│   Total bytes moved: 231.39 GB                              │
+│   Tier migrations  : 1    (KV-cache moved between tiers)  │
+│   Remote accesses  : 0      (Tier≥2: DRAM or FAR_MEM)     │
+│   Actual gen speed : 225.7 tok/s                           │
+└─────────────────────────────────────────────────────────────┘
+
+> In machine learning, training and inference are two related but distinct concepts.
+
+**Training**:
+
+Training is the process of creating a model by feeding it data and adjusting its parameters to improve its performance. This involves training a model to recognize patterns in the data and make predictions. Training is about creating a hierarchy of layers of neurons, each representing a class or unit in the model.
+
+**Inference**:
+
+Inference is the process of analyzing the data to identify patterns or relationships. This involves using the model's parameters to make predictions or estimates about the target variable. Inference is about using the model's parameters to predict the outcome of
+
+
+┌─────────────────────────────────────────────────────────────┐
+│         TRACK C · DISAGGREGATED MEMORY  (Turn  5)          │
+├──────────────────────────┬──────────────────────────────────┤
+│ MEMORY PLACEMENT         │ BANDWIDTH / LATENCY              │
+├──────────────────────────┼──────────────────────────────────┤
+│ Weights  103.67 MB       │ Tier 1 [HBM    ]                  │
+│                          │   BW: 3.35 TB/s   lat:   10 ns   │
+│ KV-cache 47.19 MB        │ Tier 1 [HBM    ]                  │
+│ (2048 tokens cached)        │   BW: 3.35 TB/s   lat:   10 ns   │
+│ Tier fill:   0.1%         │   Capacity: 34.36 GB           │
+├──────────────────────────┴──────────────────────────────────┤
+│ DATA MOVEMENT  (this turn: prefill 18 + decode 131 tokens)   │
+│   Prefill weight reads : 103.67 MB    (once for prompt)   │
+│   Decode  weight reads : 13.58 GB     (131 × weights)  │
+│   KV reads (attention) : 5.99 GB      from Tier 1 [HBM]  │
+│   KV writes (new tok)  : 3.43 MB      to   Tier 1 [HBM]  │
+│   Turn total bytes     : 19.68 GB                          │
+│   Bytes / gen token    : 149.41 MB                         │
+├─────────────────────────────────────────────────────────────┤
+│ LATENCY MODEL  (per last decode step)                       │
+│   Weight BW time :    0.031 ms  ← Tier 1 [HBM] @ 3.35 TB/s   │
+│   KV read  time  :    0.014 ms  ← Tier 1 [HBM] @ 3.35 TB/s    │
+│   Bottleneck     : Weight reads  (model too large for faster tier) │
+├─────────────────────────────────────────────────────────────┤
+│ ROOFLINE  (arithmetic intensity)                            │
+│   FLOPs/token : ~269.03 MB     (2 × 134515008 params)          │
+│   Bytes/token : 149.41 MB                                  │
+│   AI          :   1.801 FLOP/byte  →  MEMORY-BOUND ✗     │
+│   Ridge point :     295 FLOP/byte  (989 TFLOPS / 3.35 TB/s)│
+├─────────────────────────────────────────────────────────────┤
+│ SESSION TOTALS                                               │
+│   Tokens generated : 1966                                   │
+│   Total bytes moved: 251.07 GB                              │
+│   Tier migrations  : 1    (KV-cache moved between tiers)  │
+│   Remote accesses  : 0      (Tier≥2: DRAM or FAR_MEM)     │
+│   Actual gen speed : 200.7 tok/s                           │
+└─────────────────────────────────────────────────────────────┘
+
+> 
+
+
+┌─────────────────────────────────────────────────────────────┐
+│         TRACK C · DISAGGREGATED MEMORY  (Turn  6)          │
+├──────────────────────────┬──────────────────────────────────┤
+│ MEMORY PLACEMENT         │ BANDWIDTH / LATENCY              │
+├──────────────────────────┼──────────────────────────────────┤
+│ Weights  103.67 MB       │ Tier 1 [HBM    ]                  │
+│                          │   BW: 3.35 TB/s   lat:   10 ns   │
+│ KV-cache 47.19 MB        │ Tier 1 [HBM    ]                  │
+│ (2048 tokens cached)        │   BW: 3.35 TB/s   lat:   10 ns   │
+│ Tier fill:   0.1%         │   Capacity: 34.36 GB           │
+├──────────────────────────┴──────────────────────────────────┤
+│ DATA MOVEMENT  (this turn: prefill 0 + decode 0 tokens)   │
+│   Prefill weight reads : 0 B          (once for prompt)   │
+│   Decode  weight reads : 0 B          (0 × weights)  │
+│   KV reads (attention) : 0 B          from Tier 1 [HBM]  │
+│   KV writes (new tok)  : 0 B          to   Tier 1 [HBM]  │
+│   Turn total bytes     : 0 B                               │
+│   Bytes / gen token    : 0 B                               │
+├─────────────────────────────────────────────────────────────┤
+│ LATENCY MODEL  (per last decode step)                       │
+│   Weight BW time :    0.031 ms  ← Tier 1 [HBM] @ 3.35 TB/s   │
+│   KV read  time  :    0.014 ms  ← Tier 1 [HBM] @ 3.35 TB/s    │
+│   Bottleneck     : Weight reads  (model too large for faster tier) │
+├─────────────────────────────────────────────────────────────┤
+│ ROOFLINE  (arithmetic intensity)                            │
+│   FLOPs/token : ~269.03 MB     (2 × 134515008 params)          │
+│   Bytes/token : 0 B                                        │
+│   AI          :   0.000 FLOP/byte  →  MEMORY-BOUND ✗     │
+│   Ridge point :     295 FLOP/byte  (989 TFLOPS / 3.35 TB/s)│
+├─────────────────────────────────────────────────────────────┤
+│ SESSION TOTALS                                               │
+│   Tokens generated : 1966                                   │
+│   Total bytes moved: 251.07 GB                              │
+│   Tier migrations  : 1    (KV-cache moved between tiers)  │
+│   Remote accesses  : 0      (Tier≥2: DRAM or FAR_MEM)     │
+└─────────────────────────────────────────────────────────────┘
+
+> 
+
+
+┌─────────────────────────────────────────────────────────────┐
+│         TRACK C · DISAGGREGATED MEMORY  (Turn  7)          │
+├──────────────────────────┬──────────────────────────────────┤
+│ MEMORY PLACEMENT         │ BANDWIDTH / LATENCY              │
+├──────────────────────────┼──────────────────────────────────┤
+│ Weights  103.67 MB       │ Tier 1 [HBM    ]                  │
+│                          │   BW: 3.35 TB/s   lat:   10 ns   │
+│ KV-cache 47.19 MB        │ Tier 1 [HBM    ]                  │
+│ (2048 tokens cached)        │   BW: 3.35 TB/s   lat:   10 ns   │
+│ Tier fill:   0.1%         │   Capacity: 34.36 GB           │
+├──────────────────────────┴──────────────────────────────────┤
+│ DATA MOVEMENT  (this turn: prefill 0 + decode 0 tokens)   │
+│   Prefill weight reads : 0 B          (once for prompt)   │
+│   Decode  weight reads : 0 B          (0 × weights)  │
+│   KV reads (attention) : 0 B          from Tier 1 [HBM]  │
+│   KV writes (new tok)  : 0 B          to   Tier 1 [HBM]  │
+│   Turn total bytes     : 0 B                               │
+│   Bytes / gen token    : 0 B                               │
+├─────────────────────────────────────────────────────────────┤
+│ LATENCY MODEL  (per last decode step)                       │
+│   Weight BW time :    0.031 ms  ← Tier 1 [HBM] @ 3.35 TB/s   │
+│   KV read  time  :    0.014 ms  ← Tier 1 [HBM] @ 3.35 TB/s    │
+│   Bottleneck     : Weight reads  (model too large for faster tier) │
+├─────────────────────────────────────────────────────────────┤
+│ ROOFLINE  (arithmetic intensity)                            │
+│   FLOPs/token : ~269.03 MB     (2 × 134515008 params)          │
+│   Bytes/token : 0 B                                        │
+│   AI          :   0.000 FLOP/byte  →  MEMORY-BOUND ✗     │
+│   Ridge point :     295 FLOP/byte  (989 TFLOPS / 3.35 TB/s)│
+├─────────────────────────────────────────────────────────────┤
+│ SESSION TOTALS                                               │
+│   Tokens generated : 1966                                   │
+│   Total bytes moved: 251.07 GB                              │
+│   Tier migrations  : 1    (KV-cache moved between tiers)  │
+│   Remote accesses  : 0      (Tier≥2: DRAM or FAR_MEM)     │
+└─────────────────────────────────────────────────────────────┘
+
+> 

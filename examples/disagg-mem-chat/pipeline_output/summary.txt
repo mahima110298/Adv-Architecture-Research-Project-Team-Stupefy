@@ -1,0 +1,44 @@
+COA Track C — Pipeline Summary
+Generated: Wed Mar 11 10:10:06 PDT 2026
+Model: smollm2-135m-instruct-q4_k_m.gguf
+
+Scenario                               KV-tokens  Bytes/token   TotalBytes   GenTok/s Migrations RemoteAcc
+-----------------------------------   ----------   ----------   ----------   -------- ---------- ---------
+01_short_single_turn                      2.88MB       MB │       GB │        │          0        0
+02_medium_single_turn                    47.19MB       MB │       GB │        │          1        0
+03_multi_turn_conversation               44.93MB       MB │       GB │        │          1        0
+04_long_prompt_prefill                   15.81MB       MB │       GB │        │          1        0
+05_context_growth_stress                 47.19MB        B │       GB │        │          1        0
+
+--- ROOFLINE (from last scenario) ---
+│ ROOFLINE  (arithmetic intensity)                            │
+│   FLOPs/token : ~269.03 MB     (2 × 134515008 params)          │
+│   Bytes/token : 107.47 MB                                  │
+│   AI          :   2.503 FLOP/byte  →  MEMORY-BOUND ✗     │
+│ ROOFLINE  (arithmetic intensity)                            │
+│   FLOPs/token : ~269.03 MB     (2 × 134515008 params)          │
+│   Bytes/token : 115.39 MB                                  │
+│   AI          :   2.331 FLOP/byte  →  MEMORY-BOUND ✗     │
+│ ROOFLINE  (arithmetic intensity)                            │
+│   FLOPs/token : ~269.03 MB     (2 × 134515008 params)          │
+│   Bytes/token : 126.78 MB                                  │
+│   AI          :   2.122 FLOP/byte  →  MEMORY-BOUND ✗     │
+│ ROOFLINE  (arithmetic intensity)                            │
+│   FLOPs/token : ~269.03 MB     (2 × 134515008 params)          │
+│   Bytes/token : 140.71 MB                                  │
+│   AI          :   1.912 FLOP/byte  →  MEMORY-BOUND ✗     │
+│ ROOFLINE  (arithmetic intensity)                            │
+│   FLOPs/token : ~269.03 MB     (2 × 134515008 params)          │
+│   Bytes/token : 149.41 MB                                  │
+│   AI          :   1.801 FLOP/byte  →  MEMORY-BOUND ✗     │
+│ ROOFLINE  (arithmetic intensity)                            │
+│   FLOPs/token : ~269.03 MB     (2 × 134515008 params)          │
+│   Bytes/token : 0 B                                        │
+│   AI          :   0.000 FLOP/byte  →  MEMORY-BOUND ✗     │
+│ ROOFLINE  (arithmetic intensity)                            │
+│   FLOPs/token : ~269.03 MB     (2 × 134515008 params)          │
+│   Bytes/token : 0 B                                        │
+│   AI          :   0.000 FLOP/byte  →  MEMORY-BOUND ✗     │
+
+--- BOTTLENECK (from last scenario) ---
+│   Bottleneck     : Weight reads  (model too large for faster tier) │

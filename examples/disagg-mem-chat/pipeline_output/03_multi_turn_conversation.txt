@@ -1,0 +1,252 @@
+┌─────────────────────────────────────────────────────────────┐
+│   COA Project · Track C: Disaggregated Memory Chat          │
+├─────────────────────────────────────────────────────────────┤
+│  Model parameters  : 134.52 MB    (0.1B params)            │
+│  Weight footprint  : 103.67 MB    (on disk/in-memory)       │
+│  Layers            : 30                                     │
+│  KV heads          : 3     (heads: 9, embd: 576)            │
+│  Context size      : 2048   tokens                         │
+│  Max KV-cache      : 47.19 MB     (at full context, fp16)    │
+├─────────────────────────────────────────────────────────────┤
+│  Memory Hierarchy (simulated):                              │
+│    Tier 0 [SRAM   ]: BW=10.00 TB/s  lat=   1 ns  cap=4.19 MB  │
+│    Tier 1 [HBM    ]: BW=3.35 TB/s   lat=  10 ns  cap=34.36 GB │
+│    Tier 2 [DRAM   ]: BW=68.0 GB/s   lat=  80 ns  cap=68.72 GB │
+│    Tier 3 [FAR_MEM]: BW=25.0 GB/s   lat= 500 ns  cap=549.76 GB │
+├─────────────────────────────────────────────────────────────┤
+│  Type a message and press Enter. Empty line to quit.        │
+└─────────────────────────────────────────────────────────────┘
+> Memory in computers is a fundamental concept that refers to the storage capacity of a computer system. It is a physical storage device that stores data and instructions of instructions in a computer's internal memory. The term "memory" refers to the storage location where the data is stored, whereas "memory" is not a specific physical location, but rather the storage area of memory.
+
+Memory is typically used in computers to process information, process data, and store data in the form of bits and bytes. It is used for various purposes such as input, output, processing, data transfer, and storage of data. Memory is often divided into different types of memory, including random access memory (RAM), dynamic random access memory (DRAM), and static random access memory (SRAM).
+
+Memory is crucial for computers because it allows them to access data, process data, and store information. It can be accessed by the CPU (Central Processing Unit) through different modes such as input, output, and memory management.
+
+Memory is also used in various applications such as games, simulations, and data analysis, where it is used to store and manipulate data. In addition, it is used in personal computers to access data files, documents, and other resources, which can be accessed using the keyboard, mouse, and other input devices.
+
+In addition, memory is used in various applications such as data encryption, secure coding, and data storage, which can be accessed and processed using the CPU.
+
+In summary, memory in computers is a fundamental concept that refers to the storage location of data and instructions of instructions in a computer's internal memory. It is used for processing information, processing data, storing data, and accessing data in computers.
+
+┌─────────────────────────────────────────────────────────────┐
+│         TRACK C · DISAGGREGATED MEMORY  (Turn  1)          │
+├──────────────────────────┬──────────────────────────────────┤
+│ MEMORY PLACEMENT         │ BANDWIDTH / LATENCY              │
+├──────────────────────────┼──────────────────────────────────┤
+│ Weights  103.67 MB       │ Tier 1 [HBM    ]                  │
+│                          │   BW: 3.35 TB/s   lat:   10 ns   │
+│ KV-cache 8.57 MB         │ Tier 1 [HBM    ]                  │
+│ (372 tokens cached)        │   BW: 3.35 TB/s   lat:   10 ns   │
+│ Tier fill:   0.0%         │   Capacity: 34.36 GB           │
+├──────────────────────────┴──────────────────────────────────┤
+│ DATA MOVEMENT  (this turn: prefill 23 + decode 349 tokens)   │
+│   Prefill weight reads : 103.67 MB    (once for prompt)   │
+│   Decode  weight reads : 36.18 GB     (349 × weights)  │
+│   KV reads (attention) : 1.60 GB      from Tier 1 [HBM]  │
+│   KV writes (new tok)  : 8.57 MB      to   Tier 1 [HBM]  │
+│   Turn total bytes     : 37.89 GB                          │
+│   Bytes / gen token    : 108.27 MB                         │
+├─────────────────────────────────────────────────────────────┤
+│ LATENCY MODEL  (per last decode step)                       │
+│   Weight BW time :    0.031 ms  ← Tier 1 [HBM] @ 3.35 TB/s   │
+│   KV read  time  :    0.003 ms  ← Tier 1 [HBM] @ 3.35 TB/s    │
+│   Bottleneck     : Weight reads  (model too large for faster tier) │
+├─────────────────────────────────────────────────────────────┤
+│ ROOFLINE  (arithmetic intensity)                            │
+│   FLOPs/token : ~269.03 MB     (2 × 134515008 params)          │
+│   Bytes/token : 108.27 MB                                  │
+│   AI          :   2.485 FLOP/byte  →  MEMORY-BOUND ✗     │
+│   Ridge point :     295 FLOP/byte  (989 TFLOPS / 3.35 TB/s)│
+├─────────────────────────────────────────────────────────────┤
+│ SESSION TOTALS                                               │
+│   Tokens generated : 349                                    │
+│   Total bytes moved: 37.89 GB                               │
+│   Tier migrations  : 1    (KV-cache moved between tiers)  │
+│   Remote accesses  : 0      (Tier≥2: DRAM or FAR_MEM)     │
+│   Actual gen speed : 395.5 tok/s                           │
+└─────────────────────────────────────────────────────────────┘
+
+> DRAM and SRAM are two types of memory used in computer systems. The primary difference between them lies in their architecture, memory bandwidth, and storage capacity.
+
+DRAM (Dynamic Random Access Memory) is a type of memory that stores data in a random order. This means that the data is stored in the form of bits and bytes, and it is accessed by the CPU at random. DRAM uses a random access method, which means that the CPU can access the data location at any time without repeating the sequence of addresses.
+
+In contrast, SRAM (Static Random Access Memory) stores data in a sequential manner. This means that the data is stored in the form of bits and bytes, and it is accessed by the CPU in a specific sequence. SRAM uses a sequential access method, which means that the CPU can access the data location in a specific order, but it does not provide random access.
+
+To illustrate the difference, consider a computer with a DRAM memory bank. The CPU can access the data in the DRAM memory bank at any time using a random sequence, while the SRAM memory bank is accessed in a specific sequence.
+
+In summary, DRAM is a random-access memory that stores data in a sequential manner, while SRAM is a sequential-access memory that stores data in a sequential manner. SRAM provides more random access but at the expense of increased storage capacity and faster access times.
+
+In practice, SRAM is often used in applications that require faster access, such as games, simulations, and data storage. DRAM, on the other hand, is commonly used in applications that require slower access, such as data compression, encryption, and data caching.
+
+It's worth noting that SRAM is more expensive to manufacture than DRAM, but its higher memory bandwidth and faster access times make it a popular choice in applications where faster access is required.
+
+┌─────────────────────────────────────────────────────────────┐
+│         TRACK C · DISAGGREGATED MEMORY  (Turn  2)          │
+├──────────────────────────┬──────────────────────────────────┤
+│ MEMORY PLACEMENT         │ BANDWIDTH / LATENCY              │
+├──────────────────────────┼──────────────────────────────────┤
+│ Weights  103.67 MB       │ Tier 1 [HBM    ]                  │
+│                          │   BW: 3.35 TB/s   lat:   10 ns   │
+│ KV-cache 17.99 MB        │ Tier 1 [HBM    ]                  │
+│ (781 tokens cached)        │   BW: 3.35 TB/s   lat:   10 ns   │
+│ Tier fill:   0.1%         │   Capacity: 34.36 GB           │
+├──────────────────────────┴──────────────────────────────────┤
+│ DATA MOVEMENT  (this turn: prefill 20 + decode 389 tokens)   │
+│   Prefill weight reads : 103.67 MB    (once for prompt)   │
+│   Decode  weight reads : 40.33 GB     (389 × weights)  │
+│   KV reads (attention) : 5.27 GB      from Tier 1 [HBM]  │
+│   KV writes (new tok)  : 9.42 MB      to   Tier 1 [HBM]  │
+│   Turn total bytes     : 45.71 GB                          │
+│   Bytes / gen token    : 117.23 MB                         │
+├─────────────────────────────────────────────────────────────┤
+│ LATENCY MODEL  (per last decode step)                       │
+│   Weight BW time :    0.031 ms  ← Tier 1 [HBM] @ 3.35 TB/s   │
+│   KV read  time  :    0.005 ms  ← Tier 1 [HBM] @ 3.35 TB/s    │
+│   Bottleneck     : Weight reads  (model too large for faster tier) │
+├─────────────────────────────────────────────────────────────┤
+│ ROOFLINE  (arithmetic intensity)                            │
+│   FLOPs/token : ~269.03 MB     (2 × 134515008 params)          │
+│   Bytes/token : 117.23 MB                                  │
+│   AI          :   2.295 FLOP/byte  →  MEMORY-BOUND ✗     │
+│   Ridge point :     295 FLOP/byte  (989 TFLOPS / 3.35 TB/s)│
+├─────────────────────────────────────────────────────────────┤
+│ SESSION TOTALS                                               │
+│   Tokens generated : 738                                    │
+│   Total bytes moved: 83.60 GB                               │
+│   Tier migrations  : 1    (KV-cache moved between tiers)  │
+│   Remote accesses  : 0      (Tier≥2: DRAM or FAR_MEM)     │
+│   Actual gen speed : 291.2 tok/s                           │
+└─────────────────────────────────────────────────────────────┘
+
+> A CPU cache is a cache memory device that stores frequently accessed data in a contiguous block of memory that is closer to the CPU. The CPU cache acts as a buffer, storing data that is frequently accessed by the CPU and ensuring that it is processed quickly.
+
+Here's how it works:
+
+When a user requests a memory location that is close to the CPU, the CPU reads the data from the memory location and stores it in the cache. The CPU then needs to retrieve the data from the cache and process it, so it uses the cache memory to do so.
+
+The CPU cache is typically implemented as a single block of memory, typically 16-32KB. This block is typically used to store data that the CPU needs to access frequently.
+
+The CPU cache is typically stored in a contiguous block of memory, where the CPU has to retrieve and store data from the cache. The CPU can access the data stored in the cache by following the sequence of addresses that the CPU uses to retrieve it.
+
+The CPU cache is typically used in applications where the CPU needs to access frequently accessed data quickly, such as:
+
+* Games and simulations: CPU cache is often used to store data that is frequently accessed during simulation or simulation-based applications.
+* Data compression: CPU cache is used to store data that is compressed or compressed data.
+* Data caching: CPU cache is used to cache frequently accessed data.
+
+The CPU cache stores data in the form of bits and bytes, which are used to represent the data in memory. The CPU uses the CPU cache to access the data in the memory location and processes it quickly.
+
+Here's a simplified overview of how the CPU cache works:
+
+* The CPU fetches the data from memory and stores it in the cache.
+* The CPU then needs to retrieve the data from the cache to process it.
+* The CPU uses the CPU cache to access the data in the cache, so it can process the data quickly.
+
+In summary, the CPU cache acts as a buffer that stores frequently accessed data in a contiguous block of memory, ensuring that the CPU can access the data quickly and process it quickly.
+
+┌─────────────────────────────────────────────────────────────┐
+│         TRACK C · DISAGGREGATED MEMORY  (Turn  3)          │
+├──────────────────────────┬──────────────────────────────────┤
+│ MEMORY PLACEMENT         │ BANDWIDTH / LATENCY              │
+├──────────────────────────┼──────────────────────────────────┤
+│ Weights  103.67 MB       │ Tier 1 [HBM    ]                  │
+│                          │   BW: 3.35 TB/s   lat:   10 ns   │
+│ KV-cache 28.68 MB        │ Tier 1 [HBM    ]                  │
+│ (1245 tokens cached)        │   BW: 3.35 TB/s   lat:   10 ns   │
+│ Tier fill:   0.1%         │   Capacity: 34.36 GB           │
+├──────────────────────────┴──────────────────────────────────┤
+│ DATA MOVEMENT  (this turn: prefill 16 + decode 448 tokens)   │
+│   Prefill weight reads : 103.67 MB    (once for prompt)   │
+│   Decode  weight reads : 46.44 GB     (448 × weights)  │
+│   KV reads (attention) : 10.55 GB     from Tier 1 [HBM]  │
+│   KV writes (new tok)  : 10.69 MB     to   Tier 1 [HBM]  │
+│   Turn total bytes     : 57.10 GB                          │
+│   Bytes / gen token    : 127.23 MB                         │
+├─────────────────────────────────────────────────────────────┤
+│ LATENCY MODEL  (per last decode step)                       │
+│   Weight BW time :    0.031 ms  ← Tier 1 [HBM] @ 3.35 TB/s   │
+│   KV read  time  :    0.009 ms  ← Tier 1 [HBM] @ 3.35 TB/s    │
+│   Bottleneck     : Weight reads  (model too large for faster tier) │
+├─────────────────────────────────────────────────────────────┤
+│ ROOFLINE  (arithmetic intensity)                            │
+│   FLOPs/token : ~269.03 MB     (2 × 134515008 params)          │
+│   Bytes/token : 127.23 MB                                  │
+│   AI          :   2.114 FLOP/byte  →  MEMORY-BOUND ✗     │
+│   Ridge point :     295 FLOP/byte  (989 TFLOPS / 3.35 TB/s)│
+├─────────────────────────────────────────────────────────────┤
+│ SESSION TOTALS                                               │
+│   Tokens generated : 1186                                   │
+│   Total bytes moved: 140.70 GB                              │
+│   Tier migrations  : 1    (KV-cache moved between tiers)  │
+│   Remote accesses  : 0      (Tier≥2: DRAM or FAR_MEM)     │
+│   Actual gen speed : 291.3 tok/s                           │
+└─────────────────────────────────────────────────────────────┘
+
+> The memory wall problem is a common issue in computer systems that deals with large amounts of data and storage capacity. It occurs when the system's memory capacity exceeds the maximum limit of the available storage capacity in the system.
+
+In a computer system, memory can be allocated in various ways, such as a fixed number of cores, a fixed amount of memory, or a fixed number of slots. However, when the system exceeds the available memory, it causes a memory wall problem.
+
+There are two main types of memory wall problems:
+
+1. **Memory Wall Problem (MWP)**: The MWP occurs when the system's memory capacity exceeds the available storage capacity in the system.
+2. **Memory Wall Problem (MMWP)**: The MWP occurs when the memory capacity exceeds the available storage capacity in the system.
+
+To illustrate the difference, consider a system with a memory capacity of 128GiB (128 exabytes) and a storage capacity of 256MiB (256 exabytes). If the system is allocated 32GB of storage, the memory wall problem would occur because the available storage capacity exceeds the memory capacity.
+
+To avoid memory wall problems, the following steps can be taken:
+
+1. **Choose a Memory Management Unit (MMU)**: The MMU is a specialized instruction set unit that reads data from memory into storage, allowing the CPU to access the data quickly.
+2. **Use a Slower-Dropping Architecture**: The CPU can use a slower-dropping architecture, which reduces the amount of data that has to be accessed from memory.
+3. **Use a Slower-Dropping Address Format**: The CPU can use a slower-dropping address format, which reduces the amount of data that needs to be accessed from memory.
+4. **Use a Higher-Performance Mode**: The CPU can use a higher-performance mode, which reduces the amount of data that needs to be accessed from memory.
+5. **Use a More Efficient Mode**: The CPU can use a more efficient mode, which reduces the amount of data that needs to be accessed from memory.
+
+To prevent memory wall problems, it's essential to prioritize memory allocation, use memory management, and optimize memory usage. The following steps can help prevent memory wall problems:
+
+* **Choose a Memory Management Unit (MMU)**: The MMU is a specialized instruction set unit that reads data from memory into storage, allowing the CPU to access the data quickly.
+* **Use a Slower-Dropping Architecture**: The CPU can use a slower-dropping architecture, which reduces the amount of data that needs to be accessed from memory.
+* **Use a Higher-Performance Address Format**: The CPU can use a higher-performance address format, which reduces the amount of data that needs to be accessed from memory.
+* **Prioritize Memory Allocation**: Use memory allocation strategies that prioritize memory allocation, such as using a slower-dropping architecture or using a faster-dropping address format.
+* **Optimize Memory Usage**: Optimize memory usage by using memory management strategies that prioritize memory allocation and use memory to avoid memory wall problems.
+
+By following these steps, it's possible to prevent memory wall problems and ensure that the system can efficiently process large amounts of data.
+
+┌─────────────────────────────────────────────────────────────┐
+│         TRACK C · DISAGGREGATED MEMORY  (Turn  4)          │
+├──────────────────────────┬──────────────────────────────────┤
+│ MEMORY PLACEMENT         │ BANDWIDTH / LATENCY              │
+├──────────────────────────┼──────────────────────────────────┤
+│ Weights  103.67 MB       │ Tier 1 [HBM    ]                  │
+│                          │   BW: 3.35 TB/s   lat:   10 ns   │
+│ KV-cache 44.93 MB        │ Tier 1 [HBM    ]                  │
+│ (1950 tokens cached)        │   BW: 3.35 TB/s   lat:   10 ns   │
+│ Tier fill:   0.1%         │   Capacity: 34.36 GB           │
+├──────────────────────────┴──────────────────────────────────┤
+│ DATA MOVEMENT  (this turn: prefill 16 + decode 689 tokens)   │
+│   Prefill weight reads : 103.67 MB    (once for prompt)   │
+│   Decode  weight reads : 71.43 GB     (689 × weights)  │
+│   KV reads (attention) : 25.50 GB     from Tier 1 [HBM]  │
+│   KV writes (new tok)  : 16.24 MB     to   Tier 1 [HBM]  │
+│   Turn total bytes     : 97.04 GB                          │
+│   Bytes / gen token    : 140.70 MB                         │
+├─────────────────────────────────────────────────────────────┤
+│ LATENCY MODEL  (per last decode step)                       │
+│   Weight BW time :    0.031 ms  ← Tier 1 [HBM] @ 3.35 TB/s   │
+│   KV read  time  :    0.013 ms  ← Tier 1 [HBM] @ 3.35 TB/s    │
+│   Bottleneck     : Weight reads  (model too large for faster tier) │
+├─────────────────────────────────────────────────────────────┤
+│ ROOFLINE  (arithmetic intensity)                            │
+│   FLOPs/token : ~269.03 MB     (2 × 134515008 params)          │
+│   Bytes/token : 140.70 MB                                  │
+│   AI          :   1.912 FLOP/byte  →  MEMORY-BOUND ✗     │
+│   Ridge point :     295 FLOP/byte  (989 TFLOPS / 3.35 TB/s)│
+├─────────────────────────────────────────────────────────────┤
+│ SESSION TOTALS                                               │
+│   Tokens generated : 1875                                   │
+│   Total bytes moved: 237.75 GB                              │
+│   Tier migrations  : 1    (KV-cache moved between tiers)  │
+│   Remote accesses  : 0      (Tier≥2: DRAM or FAR_MEM)     │
+│   Actual gen speed : 240.7 tok/s                           │
+└─────────────────────────────────────────────────────────────┘
+
+> 

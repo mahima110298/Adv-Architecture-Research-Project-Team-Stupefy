@@ -1,0 +1,88 @@
+┌─────────────────────────────────────────────────────────────┐
+│   COA Project · Track C: Disaggregated Memory Chat          │
+├─────────────────────────────────────────────────────────────┤
+│  Model parameters  : 134.52 MB    (0.1B params)            │
+│  Weight footprint  : 103.67 MB    (on disk/in-memory)       │
+│  Layers            : 30                                     │
+│  KV heads          : 3     (heads: 9, embd: 576)            │
+│  Context size      : 2048   tokens                         │
+│  Max KV-cache      : 47.19 MB     (at full context, fp16)    │
+├─────────────────────────────────────────────────────────────┤
+│  Memory Hierarchy (simulated):                              │
+│    Tier 0 [SRAM   ]: BW=10.00 TB/s  lat=   1 ns  cap=4.19 MB  │
+│    Tier 1 [HBM    ]: BW=3.35 TB/s   lat=  10 ns  cap=34.36 GB │
+│    Tier 2 [DRAM   ]: BW=68.0 GB/s   lat=  80 ns  cap=68.72 GB │
+│    Tier 3 [FAR_MEM]: BW=25.0 GB/s   lat= 500 ns  cap=549.76 GB │
+├─────────────────────────────────────────────────────────────┤
+│  Type a message and press Enter. Empty line to quit.        │
+└─────────────────────────────────────────────────────────────┘
+> A transformer neural network is a type of neural network that utilizes a transformer architecture to learn and improve the performance of its model. The transformer architecture consists of several key components:
+
+1. **Input Layer**: This is the first layer of the neural network. It receives the input data, such as images or speech, and performs the pre-processing. The transformer learns to map the input data into a high-dimensional format, allowing the model to learn the relationships between the features and the target variable.
+
+2. **Output Layer**: This is the last layer of the neural network. It receives the transformed input and performs the inference. The output of the last layer is used to predict the target variable.
+
+3. **Output Layer**: This is the layer that produces the final output. It receives the predicted output and passes it through the transformer architecture. The transformer uses backpropagation to train the model, which helps to improve the performance of the model.
+
+The transformer neural network has the following components:
+
+* **Input Layer**: A first layer of neurons that receives the input data.
+* **Output Layer**: The last layer of neurons that produces the output.
+* **Output Layer**: The layer that produces the final output.
+
+Here's how a transformer neural network works:
+
+1. **Input**: The first layer of neurons receives the input data, which is a sequence of numbers that are used to define the input features.
+
+2. **Output**: The output layer of neurons receives the transformed input and produces the final output.
+
+3. **Output Layer**: The last layer of neurons that produces the final output.
+
+The transformer architecture uses multiple layers of neurons, each of which maps the input data to a different layer of neurons. Each layer maps a different feature to the output layer, allowing the model to learn the relationships between the features and the target variable.
+
+Transformer neural networks can be trained using various techniques, including:
+
+1. **Backpropagation**: This is a supervised learning technique that involves propagating the error backwards through the network. The output of the last layer is used to train the model, which helps to improve the performance of the model.
+2. **Gradient Descent**: This is a unsupervised learning technique that involves iterating over the dataset and adjusting the parameters of the model until convergence.
+3. **Transformer Transformer Transformer Transformer Transformer Transformer Transformer Transformer Transformer Transformer Transformer Transformer Transformer Transformer Transformer Transformer Transformer Transformer Transformer Transformer Transformer Transformer Transformer Transformer Transformer Transformer Transformer Transformer Transformer Transformer Transformer Transformer Transformer Transformer Transformer Transformer Transformer Transformer Transformer Transformer Transformer Transformer Transformer Transformer Transformer Transformer Transformer Transformer Transformer Transformer Transformer Transformer Transformer Transformer Transformer Transformer Transformer Transformer Transformer Transformer Transformer Transformer Transformer Transformer Transformer Transformer Transformer Transformer Transformer Transformer Transformer Transformer Transformer Transformer Transformer Transformer Transformer Transformer Transformer Transformer Transformer Transformer Transformer Transformer Transformer Transformer Transformer Transformer Transformer Transformer Transformer Transformer Transformer Transformer Transformer Transformer Transformer Transformer Transformer Transformer Transformer Transformer Transformer Transformer Transformer Transformer Transformer Transformer Transformer Transformer Transformer Transformer Transformer Transformer Transformer Transformer Transformer Transformer Transformer Transformer Transformer Transformer Transformer Transformer Transformer Transformer Transformer Transformer Transformer Transformer Transformer Transformer Transformer Transformer Transformer Transformer Transformer Transformer Transformer Transformer Transformer Transformer Transformer Transformer Transformer Transformer Transformer Transformer Transformer Transformer Transformer Transformer Transformer Transformer Transformer Transformer Transformer Transformer Transformer Transformer Transformer Transformer Transformer Transformer Transformer Transformer Transformer Transformer Transformer Transformer Transformer Transformer Transformer Transformer Transformer Transformer Transformer Transformer Transformer Transformer Transformer Transformer Transformer Transformer Transformer Transformer Transformer Transformer Transformer Transformer Transformer Transformer Transformer Transformer Transformer Transformer Transformer Transformer Transformer Transformer Transformer Transformer Transformer Transformer Transformer Transformer Transformer Transformer Transformer Transformer Transformer Transformer Transformer Transformer Transformer Transformer Transformer Transformer Transformer Transformer Transformer Transformer Transformer Transformer Transformer Transformer Transformer Transformer Transformer Transformer Transformer Transformer Transformer Transformer Transformer Transformer Transformer Transformer Transformer Transformer Transformer Transformer Transformer Transformer Transformer Transformer Transformer Transformer Transformer Transformer Transformer Transformer Transformer Transformer Transformer Transformer Transformer Transformer Transformer Transformer Transformer Transformer Transformer Transformer Transformer Transformer Transformer Transformer Transformer Transformer Transformer Transformer Transformer Transformer Transformer Transformer Transformer Transformer Transformer Transformer Transformer Transformer Transformer Transformer Transformer Transformer Transformer Transformer Transformer Transformer Transformer Transformer Transformer Transformer Transformer Transformer Transformer Transformer Transformer Transformer Transformer Transformer Transformer Transformer Transformer Transformer Transformer Transformer Transformer Transformer Transformer Transformer Transformer Transformer Transformer Transformer Transverter Transformer Transverter Transverter Transverter Transverter Transverter Transverter Transverter Transverter Transverter Transverter Transverter Transverter Transverter Transverter Transverter Transverter Transverter Transverter Transverter Transverter Transverter Transverter Transverter Transverter Transverter Transverter Transverter Transverter Transverter Transverter Transverter Transverter Transverter Transverter Transverter Transverter Transverter Transverter Transverter Transverter Transverter Transverter Transverter Transverter Transverter Transverter Transverter Transverter Transverter Transverter Transverter Transverter Transverter Transverter Transverter Transverter Transverter Transverter Transverter Transverter Transverter Transverter Transverter Transverter Transverter Transverter Transverter Transverter Transverter Transverter Transverter Transverter Transverter Transverter Transverter Transverter Transverter Transverter Transverter Transverter Transverter Transverter Transverter Transverter Transverter Transverter Transverter Transverter Transverter Transverter Transverter Transverter Transverter Transverter Transverter Transverter Transverter Transverter Transverter Transverter Transverter Transverter Transverter Transverter Transverter Transverter Transverter Transverter Transverter Transverter Transverter Transverter Transverter Transverter Transverter Transverter Transverter Transverter Transverter Transverter Transverter Transverter Transverter Transverter Transverter Transverter Transverter Transverter Transverter Transverter Transverter Transverter Transverter Transverter Transverter Transverter Transverter Transverter Transverter Transverter Transverter Transverter Transverter Transverter Transverter Transverter Transverter Transverter Transverter Transverter Transverter Transverter Transverter Transverter Transverter Transverter Transverter Transverter Transverter Transverter Transverter Transverter Transverter Transverter Transverter Transverter Transverter Transverter Transverter Transverter Transverter Transverter Transverter Transverter Transverter Transverter Transverter Transverter Transverter Transverter Transverter Transverter Transverter Transverter Transverter Transverter Transverter Transverter Transverter Transverter Transverter Transverter Transverter Transverter Transverter Transverter Transverter Transverter Transverter Transverter Transverter Transverter Transverter Transverter Transverter Transverter Transverter Transverter Transverter Transverter Transverter Transverter Transverter Transverter Transverter Transverter Transverter Transverter Transverter Transverter Transverter Transverter Transverter Transverter Transverter Transverter Transverter Transverter Transverter Transverter Transverter Transverter Transverter Transverter Transverter Transverter Transverter Transverter Transverter Transverter Transverter Transverter Transverter Transverter Transverter Transverter Transverter Transverter Transverter Transverter Transverter Transverter Transverter Transverter Transverter Transverter Transverter Transverter Transverter Transverter Transverter Transverter Transverter Transverter Transverter Transverter Transverter Transverter Transverter Transverter Transverter Transverter Transverter Transverter Transverter Transverter Transverter Transverter Transverter Transverter Transverter Transverter Transverter Transverter Transverter Transverter Transverter Transverter Transverter Transverter Transverter Transverter Transverter Transverter Transverter Transverter Transverter Transverter Transverter Transverter Transverter Transverter Transverter Transverter Transverter Transverter Transverter Transverter Transverter Transverter Transverter Transverter Transverter Transverter Transverter Transverter Transverter Transverter Transverter Transverter Transverter Transverter Transverter Transverter Transverter Transverter Transverter Transverter Transverter Transverter Transverter Transverter Transverter Transverter Transverter Transverter Transverter Transverter Transverter Transverter Transverter Transverter Transverter Transverter Transverter Transverter Transverter Transverter Transverter Transverter Transverter Transverter Transverter Transverter Transverter Transverter Transverter Transverter Transverter Transverter Transverter Transverter Transverter Transverter Transverter Transverter Transverter Transverter Transverter Transverter Transverter Transverter Transverter Transverter Transverter Transverter Transverter Transverter Transverter Transverter Transverter Transverter Transverter Transverter Transverter Transverter Transverter Transverter Transverter Transverter Transverter Transverter Transverter Transverter Transverter Transverter Transverter Transverter Transverter Transverter Transverter Transverter Transverter Transverter Transverter Transverter Transverter Transverter Transverter Transverter Transverter Transverter Transverter Transverter Transverter Transverter Transverter Transverter Transverter Transverter Transverter Transverter Transverter Transverter Transverter Transverter Transverter Transverter Transverter Transverter Transverter Transverter Transverter Transverter Transverter Transverter Transverter Transverter Transverter Transverter Transverter Transverter Transverter Transverter Transverter Transverter Transverter Transverter Transverter Transverter Transverter Transverter Transverter Transverter Transverter Transverter Trans
+
+
+┌─────────────────────────────────────────────────────────────┐
+│         TRACK C · DISAGGREGATED MEMORY  (Turn  1)          │
+├──────────────────────────┬──────────────────────────────────┤
+│ MEMORY PLACEMENT         │ BANDWIDTH / LATENCY              │
+├──────────────────────────┼──────────────────────────────────┤
+│ Weights  103.67 MB       │ Tier 1 [HBM    ]                  │
+│                          │   BW: 3.35 TB/s   lat:   10 ns   │
+│ KV-cache 47.19 MB        │ Tier 1 [HBM    ]                  │
+│ (2048 tokens cached)        │   BW: 3.35 TB/s   lat:   10 ns   │
+│ Tier fill:   0.1%         │   Capacity: 34.36 GB           │
+├──────────────────────────┴──────────────────────────────────┤
+│ DATA MOVEMENT  (this turn: prefill 19 + decode 2029 tokens)   │
+│   Prefill weight reads : 103.67 MB    (once for prompt)   │
+│   Decode  weight reads : 210.34 GB    (2029 × weights)  │
+│   KV reads (attention) : 48.34 GB     from Tier 1 [HBM]  │
+│   KV writes (new tok)  : 47.19 MB     to   Tier 1 [HBM]  │
+│   Turn total bytes     : 258.84 GB                         │
+│   Bytes / gen token    : 127.52 MB                         │
+├─────────────────────────────────────────────────────────────┤
+│ LATENCY MODEL  (per last decode step)                       │
+│   Weight BW time :    0.031 ms  ← Tier 1 [HBM] @ 3.35 TB/s   │
+│   KV read  time  :    0.014 ms  ← Tier 1 [HBM] @ 3.35 TB/s    │
+│   Bottleneck     : Weight reads  (model too large for faster tier) │
+├─────────────────────────────────────────────────────────────┤
+│ ROOFLINE  (arithmetic intensity)                            │
+│   FLOPs/token : ~269.03 MB     (2 × 134515008 params)          │
+│   Bytes/token : 127.52 MB                                  │
+│   AI          :   2.110 FLOP/byte  →  MEMORY-BOUND ✗     │
+│   Ridge point :     295 FLOP/byte  (989 TFLOPS / 3.35 TB/s)│
+├─────────────────────────────────────────────────────────────┤
+│ SESSION TOTALS                                               │
+│   Tokens generated : 2029                                   │
+│   Total bytes moved: 258.84 GB                              │
+│   Tier migrations  : 1    (KV-cache moved between tiers)  │
+│   Remote accesses  : 0      (Tier≥2: DRAM or FAR_MEM)     │
+│   Actual gen speed : 270.9 tok/s                           │
+└─────────────────────────────────────────────────────────────┘
+
+> 
