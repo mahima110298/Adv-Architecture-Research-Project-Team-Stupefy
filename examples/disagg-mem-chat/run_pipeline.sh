@@ -103,30 +103,32 @@ echo "COA Track C — Pipeline Summary" > "$SUMMARY"
 echo "Generated: $(date)"             >> "$SUMMARY"
 echo "Model: $(basename "$MODEL")"    >> "$SUMMARY"
 echo ""                               >> "$SUMMARY"
-printf "%-35s %12s %12s %12s %10s %10s %8s\n" \
-    "Scenario" "KV-tokens" "Bytes/token" "TotalBytes" "GenTok/s" "Migrations" "RemoteAcc" >> "$SUMMARY"
-printf "%-35s %12s %12s %12s %10s %10s %8s\n" \
-    "-----------------------------------" "----------" "----------" "----------" "--------" "----------" "---------" >> "$SUMMARY"
+printf "%-35s %12s %14s %14s %12s %10s %8s\n" \
+    "Scenario" "KV-cache" "Bytes/token" "TotalBytes" "GenTok/s" "Migrations" "RemoteAcc" >> "$SUMMARY"
+printf "%-35s %12s %14s %14s %12s %10s %8s\n" \
+    "-----------------------------------" "----------" "------------" "------------" "----------" "----------" "---------" >> "$SUMMARY"
 
 for f in "$OUT_DIR"/0*.txt; do
     name="$(basename "$f" .txt)"
+    # Strip box-drawing │ chars before parsing so $NF is always the real last field
     kv_tok=$(grep -o 'KV-cache [0-9.]* [KMGT]B' "$f" | tail -1 | awk '{print $2$3}' || echo "?")
-    bpt=$(grep 'Bytes / gen token' "$f" | tail -1 | awk '{print $NF, $(NF-1)}' | awk '{print $2, $1}' || echo "?")
-    total=$(grep 'Total bytes moved' "$f" | tail -1 | awk '{print $(NF-1), $NF}' || echo "?")
-    speed=$(grep 'Actual gen speed' "$f" | tail -1 | awk '{print $NF}' || echo "?")
+    bpt=$(grep 'Bytes / gen token' "$f" | tail -1 | sed 's/│//g' | awk '{print $(NF-1), $NF}' || echo "?")
+    total=$(grep 'Total bytes moved' "$f" | tail -1 | sed 's/│//g' | awk '{print $(NF-1), $NF}' || echo "?")
+    speed=$(grep 'Actual gen speed' "$f" | tail -1 | sed 's/│//g' | awk '{print $(NF-1), $NF}' || echo "?")
     migrations=$(grep 'Tier migrations' "$f" | tail -1 | grep -o '[0-9]*' | head -1 || echo "0")
     remote=$(grep 'Remote accesses' "$f" | tail -1 | grep -o '[0-9]*' | head -1 || echo "0")
-    printf "%-35s %12s %12s %12s %10s %10s %8s\n" \
+    printf "%-35s %12s %14s %14s %12s %10s %8s\n" \
         "$name" "$kv_tok" "$bpt" "$total" "$speed" "$migrations" "$remote" >> "$SUMMARY"
 done
 
 echo "" >> "$SUMMARY"
-echo "--- ROOFLINE (from last scenario) ---" >> "$SUMMARY"
+echo "--- ROOFLINE (from last turn of last scenario) ---" >> "$SUMMARY"
 last_file=$(ls "$OUT_DIR"/0*.txt | tail -1)
-grep -A3 'ROOFLINE' "$last_file" | grep -v '^--$' >> "$SUMMARY" || true
+# Extract only the last ROOFLINE block (one per turn; we want the final state)
+grep -A5 'ROOFLINE' "$last_file" | grep -v '^--$' | sed 's/│//g' | tail -6 >> "$SUMMARY" || true
 echo "" >> "$SUMMARY"
 echo "--- BOTTLENECK (from last scenario) ---" >> "$SUMMARY"
-grep 'Bottleneck' "$last_file" | tail -1 >> "$SUMMARY" || true
+grep 'Bottleneck' "$last_file" | tail -1 | sed 's/│//g' >> "$SUMMARY" || true
 
 cat "$SUMMARY"
 
