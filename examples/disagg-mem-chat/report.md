@@ -378,7 +378,7 @@ The table below shows how decode step latency changes if the KV-cache is forced 
 
 ## 8. Experimental Results
 
-All experiments use SmolLM2-135M-Instruct (Q4_K_M) on Apple M-series CPU (no GPU offload, `-ngl 0`). Results are from the automated inference pipeline (`run_pipeline.sh`).
+All experiments use SmolLM2-135M-Instruct (Q4_K_M) on Apple M-series CPU (no GPU offload, `-ngl 0`). Results are from the automated inference pipeline (`run_pipeline.sh`). To reproduce with GPU offload, pass the `ngl` parameter: `bash run_pipeline.sh <model> <output_dir> 99 2048`.
 
 ### 8.1 Scenario Results Summary
 
@@ -528,7 +528,7 @@ Speed decreases by **~40%** from short to long context, driven by increasing KV 
 | `examples/disagg-mem-chat/disagg_mem_sim.h` | 4-tier disaggregated memory simulator |
 | `examples/disagg-mem-chat/disagg_mem_chat.cpp` | Modified inference pipeline with per-step instrumentation |
 | `examples/disagg-mem-chat/CMakeLists.txt` | Build target: `llama-disagg-mem-chat` |
-| `examples/disagg-mem-chat/run_pipeline.sh` | Automated multi-scenario test pipeline |
+| `examples/disagg-mem-chat/run_pipeline.sh` | Automated multi-scenario test pipeline; accepts `[model] [output_dir] [ngl] [ctx]` |
 | `examples/disagg-mem-chat/pipeline_output/` | Raw output from all 5 test scenarios |
 | `models/smollm2-135m-instruct-q4_k_m.gguf` | SmolLM2-135M model (103.67 MB) |
 

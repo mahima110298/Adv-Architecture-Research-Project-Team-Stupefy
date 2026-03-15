@@ -84,8 +84,25 @@ The pipeline runs 5 scenarios with increasing context length, captures all outpu
 
 ```bash
 cd examples/disagg-mem-chat
+
+# CPU only (default)
 bash run_pipeline.sh
+
+# Custom model and output directory
+bash run_pipeline.sh /path/to/model.gguf ./my_output
+
+# Full GPU offload on H100 (ngl=99) with 4096 context
+bash run_pipeline.sh /path/to/model.gguf ./my_output 99 4096
 ```
+
+**Pipeline parameters (positional):**
+
+| Position | Default | Description                                      |
+|----------|---------|--------------------------------------------------|
+| 1        | `../../models/smollm2-135m-instruct-q4_k_m.gguf` | Path to `.gguf` model file |
+| 2        | `./pipeline_output` | Output directory for scenario files    |
+| 3        | `0`     | GPU layers to offload (`-ngl`); set to `99` for full GPU |
+| 4        | `2048`  | Context size in tokens (`-c`)                    |
 
 Output files appear in `pipeline_output/`:
 - `01_short_single_turn.txt` — baseline, KV-cache in SRAM

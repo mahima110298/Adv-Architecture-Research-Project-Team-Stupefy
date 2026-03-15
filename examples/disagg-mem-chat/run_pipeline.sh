@@ -6,11 +6,13 @@
 # memory-hierarchy statistics for analysis and reporting.
 #
 # Usage:
-#   ./run_pipeline.sh [model_path] [output_dir]
+#   ./run_pipeline.sh [model_path] [output_dir] [ngl] [ctx]
 #
 # Defaults:
 #   model_path = ../../models/smollm2-135m-instruct-q4_k_m.gguf
 #   output_dir = ./pipeline_output
+#   ngl        = 0   (GPU layers to offload; set to 99 for full GPU offload)
+#   ctx        = 2048
 
 set -euo pipefail
 
@@ -18,7 +20,8 @@ SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 BINARY="$SCRIPT_DIR/../../build/bin/llama-disagg-mem-chat"
 MODEL="${1:-$SCRIPT_DIR/../../models/smollm2-135m-instruct-q4_k_m.gguf}"
 OUT_DIR="${2:-$SCRIPT_DIR/pipeline_output}"
-CTX=2048
+NGL="${3:-0}"
+CTX="${4:-2048}"
 
 mkdir -p "$OUT_DIR"
 
@@ -39,6 +42,8 @@ echo "============================================================"
 echo "  Binary : $BINARY"
 echo "  Model  : $MODEL"
 echo "  Output : $OUT_DIR"
+echo "  NGL    : $NGL"
+echo "  CTX    : $CTX"
 echo "============================================================"
 echo ""
 
@@ -51,7 +56,7 @@ run_scenario() {
     echo "  [RUN] $name ..."
     # Strip ANSI color codes for the saved file
     printf "%s\n\n" "$prompts" \
-        | "$BINARY" -m "$MODEL" -c $CTX -ngl 0 2>/dev/null \
+        | "$BINARY" -m "$MODEL" -c $CTX -ngl $NGL 2>/dev/null \
         | sed 's/\x1b\[[0-9;]*m//g' \
         > "$outfile"
     echo "        saved → $outfile"
