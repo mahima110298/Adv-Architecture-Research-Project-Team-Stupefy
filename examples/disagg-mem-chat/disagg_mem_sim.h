@@ -17,7 +17,91 @@
 #include <cstdint>
 #include <cstdio>
 #include <cmath>
+#include <cstring>
 #include <string>
+#include <vector>
+
+// ── GPU Spec Detection ────────────────────────────────────────────────────────
+
+struct GpuSpec {
+    const char * name;
+    double peak_tflops;     // BF16/FP16 tensor core TFLOPS
+    double peak_mem_bw_TBs; // actual HBM bandwidth (TB/s)
+};
+
+// Known GPU specs (BF16 tensor core TFLOPS, HBM bandwidth)
+static const GpuSpec GPU_SPECS[] = {
+    { "H200",           989.0, 4.800 },
+    { "H100 SXM",       989.0, 3.350 },
+    { "H100 PCIe",      756.0, 2.000 },
+    { "H100 NVL",       835.0, 3.350 },
+    { "A100 SXM4 80GB", 312.0, 2.000 },
+    { "A100 SXM4 40GB", 312.0, 1.555 },
+    { "A100 PCIe 80GB", 312.0, 1.935 },
+    { "A100 PCIe 40GB", 312.0, 1.555 },
+    { "A100",           312.0, 1.555 }, // generic A100 fallback
+    { "V100 SXM2",      125.0, 0.900 },
+    { "V100 PCIe",      112.0, 0.900 },
+    { "V100",           112.0, 0.900 },
+    { "L40S",           362.0, 0.864 },
+    { "L40",            181.0, 0.864 },
+    { "A40",             37.4, 0.696 },
+    { "RTX 4090",        82.6, 1.008 },
+    { "RTX 4080",        48.7, 0.717 },
+    { "RTX 3090 Ti",     40.0, 1.008 },
+    { "RTX 3090",        35.6, 0.936 },
+    { "RTX 3080",        29.8, 0.760 },
+};
+static const int N_GPU_SPECS = (int)(sizeof(GPU_SPECS) / sizeof(GPU_SPECS[0]));
+
+// Detect the GPU name via nvidia-smi, then match against the lookup table.
+// Falls back to H100 SXM defaults if detection fails.
+static GpuSpec detect_gpu_spec() {
+    GpuSpec fallback = { "H100 SXM (assumed)", 989.0, 3.350 };
+
+    FILE * f = popen("nvidia-smi --query-gpu=name --format=csv,noheader 2>/dev/null", "r");
+    if (!f) { return fallback; }
+
+    char buf[256] = {};
+    if (!fgets(buf, sizeof(buf), f)) { pclose(f); return fallback; }
+    pclose(f);
+
+    // Strip trailing newline/space
+    size_t len = strlen(buf);
+    while (len > 0 && (buf[len-1] == '\n' || buf[len-1] == '\r' || buf[len-1] == ' ')) {
+        buf[--len] = '\0';
+    }
+
+    if (len == 0) { return fallback; }
+
+    // Match against known specs (longest substring match wins)
+    int    best_idx = -1;
+    size_t best_len = 0;
+    for (int i = 0; i < N_GPU_SPECS; i++) {
+        const char * p = strstr(buf, GPU_SPECS[i].name);
+        if (p) {
+            size_t match_len = strlen(GPU_SPECS[i].name);
+            if (match_len > best_len) {
+                best_len = match_len;
+                best_idx = i;
+            }
+        }
+    }
+
+    if (best_idx >= 0) {
+        static char detected_name[256];
+        snprintf(detected_name, sizeof(detected_name), "%s", buf);
+        GpuSpec spec = GPU_SPECS[best_idx];
+        spec.name    = detected_name;
+        return spec;
+    }
+
+    // GPU detected but not in table — use detected name with fallback numbers
+    static char unknown_name[256];
+    snprintf(unknown_name, sizeof(unknown_name), "%s (unknown, using H100 defaults)", buf);
+    fallback.name = unknown_name;
+    return fallback;
+}
 
 // ── Memory Tier Definitions ───────────────────────────────────────────────────
 
@@ -91,6 +175,9 @@ public:
     int64_t turn_weight_bytes_prefill= 0; // weights read during prefill (once)
     int64_t turn_kv_read_bytes       = 0;
     int64_t turn_kv_write_bytes      = 0;
+
+    // ── GPU spec (set via set_gpu_spec or defaults to H100) ──────────────────
+    GpuSpec gpu_spec = { "H100 SXM (default)", 989.0, 3.350 };
 
     // ── Internal state ────────────────────────────────────────────────────────
     MemTier prev_kv_tier = MemTier::SRAM;
@@ -240,9 +327,8 @@ public:
         double kv_lat  = latency_bw_ms(last_kv_read, kv_t);
 
         double ai = arithmetic_intensity();
-        // Ridge point on the roofline: peak_compute / peak_bw
-        // Using H100-class HBM numbers as reference point
-        const double peak_tflops = 989.0;   // H100 BF16 tensor cores (TFLOPS)
+        // Ridge point on the roofline: peak_compute / peak_bw (detected GPU)
+        const double peak_tflops = gpu_spec.peak_tflops;
         const double ridge_pt    = (peak_tflops * 1e12) / (w_cfg.bandwidth_TBs * 1e12);
 
         double kv_fill_pct = 100.0 * (double)kv_total / kv_cfg.capacity_bytes;
@@ -300,8 +386,8 @@ public:
                fmt_bytes(bytes_per_tok).c_str());
         printf("│   AI          : %7.3f FLOP/byte  →  %-16s     │\n",
                ai, (ai < ridge_pt) ? "MEMORY-BOUND ✗" : "COMPUTE-BOUND ✓");
-        printf("│   Ridge point : %7.0f FLOP/byte  (989 TFLOPS / %.2f TB/s)│\n",
-               ridge_pt, w_cfg.bandwidth_TBs);
+        printf("│   Ridge point : %7.0f FLOP/byte  (%.0f TFLOPS / %.2f TB/s) │\n",
+               ridge_pt, peak_tflops, w_cfg.bandwidth_TBs);
         printf("├─────────────────────────────────────────────────────────────┤\n");
         printf("│ SESSION TOTALS                                               │\n");
         printf("│   Tokens generated : %-6lld                                 │\n",

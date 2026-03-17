@@ -115,6 +115,13 @@ int main(int argc, char ** argv) {
     int64_t max_kv   = (int64_t)n_ctx * n_layers * 2 * n_kv_heads * head_dim * 2;
     printf("│  Max KV-cache      : %-12s (at full context, fp16)    │\n",
            fmt_bytes(max_kv).c_str());
+    GpuSpec gpu = detect_gpu_spec();
+    printf("├─────────────────────────────────────────────────────────────┤\n");
+    printf("│  GPU detected      : %-38s│\n", gpu.name);
+    printf("│  Peak compute      : %-5.0f TFLOPS (BF16)                    │\n", gpu.peak_tflops);
+    printf("│  Peak memory BW    : %-5.2f TB/s                              │\n", gpu.peak_mem_bw_TBs);
+    printf("│  Roofline ridge pt : %-5.0f FLOP/byte                         │\n",
+           gpu.peak_tflops * 1e12 / (gpu.peak_mem_bw_TBs * 1e12));
     printf("├─────────────────────────────────────────────────────────────┤\n");
     printf("│  Memory Hierarchy (simulated):                              │\n");
     for (int i = 0; i < N_TIERS; i++) {
@@ -132,6 +139,7 @@ int main(int argc, char ** argv) {
     // ── Init memory simulator ─────────────────────────────────────────────────
     DisaggMemSim sim;
     sim.init(weight_bytes, n_layers, n_kv_heads, n_heads, n_embd, n_params);
+    sim.gpu_spec = gpu;
 
     // ── Generate function with per-step memory tracking ───────────────────────
     auto generate = [&](const std::string & prompt) -> std::string {
