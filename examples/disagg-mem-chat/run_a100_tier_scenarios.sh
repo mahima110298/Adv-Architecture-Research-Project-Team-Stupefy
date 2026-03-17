@@ -3,9 +3,9 @@
 # COA Project — Track C: A100 KV-Cache Tier Migration Pipeline
 #
 # Runs 3 targeted scenarios on A100 to capture KV-cache in each memory tier:
-#   Scenario 1 — KV in HBM     : ~15K token prompt, ctx=20000  → KV ≈ 12 GB  (HBM, <32 GB)
-#   Scenario 2 — KV in DRAM    : ~43K token prompt, ctx=48000  → KV ≈ 34 GB  (DRAM, 32–64 GB)
-#   Scenario 3 — KV in FAR_MEM : ~85K token prompt, ctx=90000  → KV ≈ 70 GB  (FAR_MEM, >64 GB)
+#   Scenario 1 — KV in HBM     : ~15K token prompt, ctx=25000  → KV ≈ 12 GB  (HBM, <32 GB)
+#   Scenario 2 — KV in DRAM    : ~43K token prompt, ctx=60000  → KV ≈ 34 GB  (DRAM, 32–64 GB)
+#   Scenario 3 — KV in FAR_MEM : ~85K token prompt, ctx=100000 → KV ≈ 70 GB  (FAR_MEM, >64 GB)
 #
 # KV bytes/token for 13B (40 layers, 40 KV heads, 128 head_dim, fp16):
 #   40 × 2 × 40 × 128 × 2 = 819,200 bytes ≈ 0.8 MB/token
@@ -84,15 +84,18 @@ run_scenario() {
 
 # ── Scenario 1: KV-cache in HBM ──────────────────────────────────────────────
 # Target: ~15,000 token prefill → KV ≈ 12 GB → fits in HBM (cap=32 GB)
-run_scenario "01_kv_in_hbm" 20000 15000
+# ctx=25000 gives 10,000 token decode headroom after prefill
+run_scenario "01_kv_in_hbm" 25000 15000
 
 # ── Scenario 2: KV-cache in DRAM ─────────────────────────────────────────────
 # Target: ~43,000 token prefill → KV ≈ 34 GB → exceeds HBM (32 GB), lands in DRAM
-run_scenario "02_kv_in_dram" 48000 43000
+# ctx=60000 gives ~17,000 token decode headroom after prefill
+run_scenario "02_kv_in_dram" 60000 43000
 
 # ── Scenario 3: KV-cache in FAR_MEM (CXL) ────────────────────────────────────
 # Target: ~85,000 token prefill → KV ≈ 70 GB → exceeds DRAM (64 GB), lands in FAR_MEM
-run_scenario "03_kv_in_far_mem" 90000 85000
+# ctx=100000 gives ~15,000 token decode headroom after prefill
+run_scenario "03_kv_in_far_mem" 100000 85000
 
 echo ""
 echo "============================================================"
