@@ -3,9 +3,9 @@
 # COA Project — Track C: A100 KV-Cache Tier Migration Pipeline
 #
 # Runs 3 targeted scenarios on A100 to capture KV-cache in each memory tier:
-#   Scenario 1 — KV in HBM     : ~18K token prompt, ctx=22000  → KV ≈ 14 GB  (HBM, <32 GB)
-#   Scenario 2 — KV in DRAM    : ~45K token prompt, ctx=50000  → KV ≈ 36 GB  (DRAM, 32–64 GB)
-#   Scenario 3 — KV in FAR_MEM : ~87K token prompt, ctx=95000  → KV ≈ 71 GB  (FAR_MEM, >64 GB)
+#   Scenario 1 — KV in HBM     : ~15K token prompt, ctx=20000  → KV ≈ 12 GB  (HBM, <32 GB)
+#   Scenario 2 — KV in DRAM    : ~43K token prompt, ctx=48000  → KV ≈ 34 GB  (DRAM, 32–64 GB)
+#   Scenario 3 — KV in FAR_MEM : ~85K token prompt, ctx=90000  → KV ≈ 70 GB  (FAR_MEM, >64 GB)
 #
 # KV bytes/token for 13B (40 layers, 40 KV heads, 128 head_dim, fp16):
 #   40 × 2 × 40 × 128 × 2 = 819,200 bytes ≈ 0.8 MB/token
@@ -55,11 +55,11 @@ echo "============================================================"
 echo ""
 
 # ── Helper: generate a repeated prompt of ~N tokens ──────────────────────────
-# Uses python3 to produce exactly the right number of repetitions.
-# Each repetition of the seed sentence is ~18 tokens (74 chars / 4 chars-per-token).
+# Each repetition of the seed sentence is ~28 tokens (conservative estimate).
+# We subtract a 500-token safety margin from the target to avoid exceeding ctx.
 make_prompt() {
     local target_tokens="$1"
-    local reps=$(( target_tokens / 18 + 1 ))
+    local reps=$(( (target_tokens - 500) / 28 + 1 ))
     python3 -c "
 sentence = 'The history of computer architecture involves many important developments in processor design, memory systems, and instruction set architecture. '
 print(sentence * $reps)
@@ -83,16 +83,16 @@ run_scenario() {
 }
 
 # ── Scenario 1: KV-cache in HBM ──────────────────────────────────────────────
-# Target: ~18,000 token prefill → KV ≈ 14.4 GB → fits in HBM (cap=32 GB)
-run_scenario "01_kv_in_hbm" 22000 18000
+# Target: ~15,000 token prefill → KV ≈ 12 GB → fits in HBM (cap=32 GB)
+run_scenario "01_kv_in_hbm" 20000 15000
 
 # ── Scenario 2: KV-cache in DRAM ─────────────────────────────────────────────
-# Target: ~45,000 token prefill → KV ≈ 36 GB → exceeds HBM, lands in DRAM (cap=64 GB)
-run_scenario "02_kv_in_dram" 50000 45000
+# Target: ~43,000 token prefill → KV ≈ 34 GB → exceeds HBM (32 GB), lands in DRAM
+run_scenario "02_kv_in_dram" 48000 43000
 
 # ── Scenario 3: KV-cache in FAR_MEM (CXL) ────────────────────────────────────
-# Target: ~87,000 token prefill → KV ≈ 71 GB → exceeds DRAM, lands in FAR_MEM
-run_scenario "03_kv_in_far_mem" 95000 87000
+# Target: ~85,000 token prefill → KV ≈ 70 GB → exceeds DRAM (64 GB), lands in FAR_MEM
+run_scenario "03_kv_in_far_mem" 90000 85000
 
 echo ""
 echo "============================================================"
